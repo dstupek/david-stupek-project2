@@ -52,11 +52,11 @@ const CreatePost = ({ token, onPostCreated }) => {
 
   return (
     <div className="form-container">
-      <h2>Create New Post</h2>
+      <h2>Enter a number, compose your message, press submit!</h2>
       <input
         name="title"
         type="text"
-        placeholder="Title"
+        placeholder="Number"
         value={title}
         onChange={e => onChange(e)}
       />
@@ -64,6 +64,7 @@ const CreatePost = ({ token, onPostCreated }) => {
         name="body"
         cols="30"
         rows="10"
+        placeholder="Message body"
         value={body}
         onChange={e => onChange(e)}
       ></textarea>

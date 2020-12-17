@@ -198,6 +198,52 @@ app.post(
     }
   }
 );
+// SMS endpoints
+/**
+ * @route POST api/sms
+ * @desc send message
+ */
+app.post(
+  '/api/sms',
+  [
+    auth,
+    [
+      check('title', 'Title text is required')
+        .not()
+        .isEmpty(),
+      check('body', 'Body text is required')
+        .not()
+        .isEmpty()
+    ]
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+    } else {
+      const { title, body } = req.body;
+      try {
+        // Get the user who created the post
+        const user = await User.findById(req.user.id);
+
+        // Create a new post
+        const sms = new sms({
+          user: user.id,
+          title: title,
+          body: body
+        });
+
+        // Save to the db and return
+        await sms.save();
+
+        res.json(post);
+      } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+      }
+    }
+  }
+);
 
 /**
  * @route GET api/posts
@@ -292,7 +338,7 @@ app.put('/api/posts/:id', auth, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
-
+/*
 // Serve build files in production
 if (process.env.NODE_ENV === 'production') {
   // Set the build folder
@@ -304,7 +350,7 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
   });
 }
-
+*/
 // Connection listener
-const port = process.env.PORT || 5000;
+const port = 5000;
 app.listen(port, () => console.log(`Express server running on port ${port}`));

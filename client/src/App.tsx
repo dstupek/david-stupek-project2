@@ -6,7 +6,7 @@ import Register from './components/Register/Register';
 import Login from './components/Login/Login';
 import PostList from './components/PostList/PostList';
 import Post from './components/Post/Post';
-import CreatePost from './components/Post/CreatePost';
+import sms from './components/SMS/sms';
 import EditPost from './components/Post/EditPost';
 
 class App extends React.Component {
@@ -152,14 +152,14 @@ class App extends React.Component {
       <Router>
         <div className="App">
           <header className="App-header">
-            <h1>GoodThings</h1>
+            <h1>SMS Machine</h1>
             <ul>
               <li>
                 <Link to="/">Home</Link>
               </li>
               <li>
                 {user ? (
-                  <Link to="/new-post">New Post</Link>
+                  <Link to="/new-post">Send a Message</Link>
                 ) : (
                   <Link to="/register">Register</Link>
                 )}
@@ -189,14 +189,14 @@ class App extends React.Component {
                     />
                   </React.Fragment>
                 ) : (
-                  <React.Fragment>Please Register or Login</React.Fragment>
+                  <React.Fragment>Please Register or Login To Send a Text</React.Fragment>
                 )}
               </Route>
               <Route path="/posts/:postId">
                 <Post post={post} />
               </Route>
               <Route path="/new-post">
-                <CreatePost token={token} onPostCreated={this.onPostCreated} />
+                <SMS sms={sms} />
               </Route>
               <Route path="/edit-post/:postId">
                 <EditPost
